@@ -13,14 +13,14 @@ function ProtectedRoute({ children }) {
 
   React.useEffect(() => {
     axios
-      .get("http://localhost:5000/api/me", {
+      .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/me", {
         withCredentials: true,
       })
       .then(() => {
         setStatus("authenticated");
       })
       .catch(() => {
-        window.location.href = "http://localhost:5000/login";
+        window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
       });
   }, []);
 

@@ -26,7 +26,7 @@ export default function Navbar() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/me", {
+      .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/me", {
         withCredentials: true,
       })
       .then((res) => {
@@ -38,19 +38,19 @@ export default function Navbar() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5000/login";
+    window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
   };
 
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/logout",
+        "https://acs-return-notice-1086168806252.europe-west1.run.app/logout",
         {},
         { withCredentials: true }
       );
 
       setUser(null);
-      window.location.href = "http://localhost:5000/login";
+      window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
     } catch (err) {
       console.error("Logout failed:", err);
     }

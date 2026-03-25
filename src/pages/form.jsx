@@ -22,7 +22,7 @@ function ReturnForm() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/form-data", {
+      .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/form-data", {
         withCredentials: true,
       })
       .then((res) => {
@@ -65,7 +65,7 @@ function ReturnForm() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/return-notice",
+        "https://acs-return-notice-1086168806252.europe-west1.run.app/api/return-notice",
         formData,
         {
           withCredentials: true,
