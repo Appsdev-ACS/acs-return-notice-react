@@ -1,0 +1,194 @@
+body{
+    background-color: #ffffff;
+}
+.right-buttons {
+  display: flex;
+  justify-content: flex-end; /* push content to the right */
+  margin: 10px;              /* space around container */
+  gap: 10px;                 /* space between items */
+}
+
+.main-content {
+    min-height: calc(100vh - 120px); /* 100% viewport minus header/navbar height */
+    padding-top: 40px; /* stable space from navbar */
+    padding-bottom: 40px; /* optional bottom spacing */
+}
+.acs-logo {
+    max-width: 400px;
+    max-height: 200px;
+}
+
+.btn-theme-wrapper {
+    width: 100%;
+    text-align: center; /* center the button */
+    margin-top: 1rem;
+}
+
+.col-md-4{
+    align-self: center;
+}
+.payment-block .nav-pills {
+    border: 1px solid #9E9E9E;
+}
+.payment-block .nav-pills a {
+    border-radius: 0;
+    color: #484848;
+}
+.border-radius-none {
+    border-radius: 0 !important;
+}
+.card-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+.card-header {
+    background: #004c3a;
+}
+img.acs-logo {
+    max-width: 400px;
+    max-height: 200px;
+}
+a.acs-brand {
+    display: inline-block;
+}
+.bg-acs {
+    background: #004c3a;
+}
+.navbar-nav .nav-item {
+    margin: 0 15px;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
+}
+.navbar-dark .navbar-nav .nav-link:hover, .navbar-dark .navbar-nav .nav-link:focus {
+    color: #FFC107;
+}
+.btn {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px 1em;
+}
+.btn-theme {
+    background: #004c3a;
+    border: 1px solid #000000;
+    color: #ffffff;
+}
+.btn-theme:hover {
+    color: #ffc107;
+}
+.btn-theme-2 {
+    background: #212529;
+    border: 1px solid #000000;
+    color: #ffffff;
+}
+.btn-theme-2:hover {
+    color: #ffc107;
+}
+.btn-theme-3 {
+    background: #e3342f;
+    border: 1px solid #c51f1a;
+    color: #ffffff;
+}
+.btn-theme-3:hover {
+    color: #ffc107;
+    border: 1px solid #000000;
+    background: #343a40;
+}
+.bold {
+    font-weight: bold;
+}
+.bg-card {
+    background: rgba(0, 0, 0, 0.075);
+}
+a.payment-link {
+    display: block;
+    border: 1px solid #e9ecef;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(49,93,47,1);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(49,93,47,1);
+    box-shadow: 0px 0px 5px 0px rgba(49,93,47,1);
+}
+.show {
+    display: block !important;
+}
+.student-block .item {
+    border-bottom: 1px solid #adb5bd;
+    margin-top: 2em;
+}
+span.loader img {
+    width: 21px;
+}
+.hidden {
+    display: none !important;
+}
+.student-details {
+    border: 1px solid #dee2e6;
+    margin: 20px;
+}
+.student-details .info {
+    margin: 20px;
+}
+
+.installment-options {
+    border: 1px solid #adb5bd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: none;
+}
+.payment-options {
+    border-bottom: 1px solid #adb5bd;
+    border-top: 1px solid #adb5bd;
+}
+.payment-label {
+    font-size: 17px;
+}
+.card-body.setting-card {
+    border: 1px solid #dae0e5;
+}
+
+.donation-details {
+    border-top: 1px solid #dae0e5;
+    border-bottom: 1px solid #dae0e5;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+.bg-gray {
+    background-color: #eee;
+    color: #004c3a;
+}
+.level-card {
+    margin: 10px 0;
+    background-color: #eee;
+    color: #004c3a;
+    padding: 20px 10px;
+    text-align: center;
+    border: 1px solid #dae0e5;
+}
+.level-card h3 {
+    font-size: 20px;
+}
+.level-card p {
+    margin-bottom: 0;
+}
+.highlighted {
+    border: 1px solid #adb5bd;
+    padding: 15px 0;
+    margin-bottom: 10px;
+    background: #dee2e6;
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+}
+
+img.payment-icon {
+    max-width: 60px;
+}
+.form-check.payment-method {
+    margin-top: 0.3rem;
+}
+.payment-method .form-check-input {
+    position: absolute;
+    margin-top: 0.7rem;
+    margin-left: -1.25rem;
+}
