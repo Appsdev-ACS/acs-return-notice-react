@@ -1,15 +1,18 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import ReturnForm from "./pages/form.jsx";
+import LocationForm from "./pages/locationForm";
 
 import "./assets/css/app.css";
 import "./assets/css/main.css";
 
 function ProtectedRoute({ children }) {
   const [status, setStatus] = React.useState("loading");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     axios
@@ -17,12 +20,26 @@ function ProtectedRoute({ children }) {
         withCredentials: true,
       })
       .then(() => {
+        const pendingRoute = localStorage.getItem("postLoginRedirect");
+
+        if (
+          pendingRoute &&
+          pendingRoute !== location.pathname &&
+          (location.pathname === "/form" || location.pathname === "/")
+        ) {
+          localStorage.removeItem("postLoginRedirect");
+          navigate(pendingRoute, { replace: true });
+          return;
+        }
+
+        localStorage.removeItem("postLoginRedirect");
         setStatus("authenticated");
       })
       .catch(() => {
+        localStorage.setItem("postLoginRedirect", location.pathname);
         window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
       });
-  }, []);
+  }, [location.pathname, navigate]);
 
   if (status === "loading") {
     return (
@@ -32,13 +49,12 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  // return (
-  //   <>
-  //     <Navbar />
-  //     {children}
-  //   </>
-  // );
-  return children
+  return (
+    <>
+      {/* <Navbar /> */}
+      {children}
+    </>
+  );
 }
 
 function App() {
@@ -57,6 +73,15 @@ function App() {
         />
 
         <Route
+          path="/location-form"
+          element={
+            <ProtectedRoute>
+              <LocationForm />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="*"
           element={<h2 style={{ padding: "20px" }}>Page Not Found</h2>}
         />
@@ -68,30 +93,36 @@ function App() {
 export default App;
 
 
+
 // import React from "react";
 // import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 // import axios from "axios";
 
-// import Home from "./pages/Home";
+// import Navbar from "./components/Navbar";
 // import ReturnForm from "./pages/form.jsx";
+// import LocationForm from "./pages/locationForm";
 
 // import "./assets/css/app.css";
 // import "./assets/css/main.css";
 
-// // 🔐 Protected Route
 // function ProtectedRoute({ children }) {
 //   const [status, setStatus] = React.useState("loading");
 
 //   React.useEffect(() => {
 //     axios
-//       .get("http://localhost:5000/api/me", {
+//       .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/me", {
 //         withCredentials: true,
 //       })
 //       .then(() => {
 //         setStatus("authenticated");
 //       })
+//       // .catch(() => {
+//       //   window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
+//       // });
 //       .catch(() => {
-//         window.location.href = "http://localhost:5000/login";
+//         const currentPath = window.location.hash || "#/form";
+//         const encodedPath = encodeURIComponent(currentPath);
+//         window.location.href = `https://acs-return-notice-1086168806252.europe-west1.run.app/login?next=${encodedPath}`;
 //       });
 //   }, []);
 
@@ -106,15 +137,12 @@ export default App;
 //   return children;
 // }
 
-// // 🚀 Main App
 // function App() {
 //   return (
 //     <Router>
 //       <Routes>
-//         {/* Redirect root → form */}
 //         <Route path="/" element={<Navigate to="/form" replace />} />
 
-//         {/* Protected Form Page */}
 //         <Route
 //           path="/form"
 //           element={
@@ -124,13 +152,22 @@ export default App;
 //           }
 //         />
 
-//         {/* Optional fallback route */}
-//         <Route path="*" element={<h2 style={{ padding: "20px" }}>Page Not Found</h2>} />
+//         <Route
+//           path="/location-form"
+//           element={
+//             <ProtectedRoute>
+//               <LocationForm />
+//             </ProtectedRoute>
+//           }
+//         />
+
+//         <Route
+//           path="*"
+//           element={<h2 style={{ padding: "20px" }}>Page Not Found</h2>}
+//         />
 //       </Routes>
 //     </Router>
 //   );
 // }
 
 // export default App;
-
-

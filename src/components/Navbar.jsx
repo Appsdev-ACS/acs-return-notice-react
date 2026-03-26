@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function getUrl(type) {
   const baseUrl = "/";
@@ -22,6 +23,14 @@ export default function Navbar() {
       e.preventDefault();
       alert("Please sign in to continue");
     }
+  };
+  const location = useLocation();
+
+  const getTitle = () => {
+    if (location.pathname === "/location-form") {
+      return "Remote Status Update Form";
+    }
+    return "Return Notice Form";
   };
 
   useEffect(() => {
@@ -112,36 +121,11 @@ export default function Navbar() {
               className="bi bi-person-fill mb-0"
               style={{ color: "#ffff", fontSize: "1rem" }}
             >
-              {" "}Return Notice Form
+              {/* {" "}Return Notice Form */}
+              {" "}{getTitle()}
             </p>
           </div>
 
-          {/* Example future links */}
-          {/* 
-          <div className="col-md-2 col-3 mt-4 text-center">
-            <a href={getUrl("search_by_bus")} className="search-by-bus" onClick={handleClick}>
-              <p className="bi bi-bus-front-fill" style={{ color: "#ffff", fontSize: "1rem" }}>
-                {" "}Search by Bus
-              </p>
-            </a>
-          </div>
-
-          <div className="col-md-2 col-3 mt-4 text-center">
-            <a href={getUrl("search_by_grade")} className="search-by-grade" onClick={handleClick}>
-              <p className="bi bi-mortarboard-fill" style={{ color: "#ffff", fontSize: "1rem" }}>
-                {" "}Search by Grade Level
-              </p>
-            </a>
-          </div>
-
-          <div className="col-md-2 col-3 mt-4 text-center">
-            <a href={getUrl("search_by_homeroom")} className="search-by-homeroom" onClick={handleClick}>
-              <p className="bi bi-buildings-fill" style={{ color: "#ffff", fontSize: "1rem" }}>
-                {" "}Search by Homeroom
-              </p>
-            </a>
-          </div>
-          */}
         </div>
       </div>
     </>

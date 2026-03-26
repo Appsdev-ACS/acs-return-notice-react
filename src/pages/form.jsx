@@ -20,6 +20,8 @@ function ReturnForm() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  const today = new Date().toISOString().split("T")[0];
+
   useEffect(() => {
     axios
       .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/form-data", {
@@ -51,6 +53,12 @@ function ReturnForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "DateOfReturn" && value > today) {
+      alert("Future dates are not allowed.");
+      return;
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -62,6 +70,12 @@ function ReturnForm() {
     setSubmitting(true);
     setError("");
     setSuccess("");
+
+    if (formData.DateOfReturn > today) {
+      setError("Future dates are not allowed.");
+      setSubmitting(false);
+      return;
+    }
 
     try {
       await axios.post(
@@ -76,6 +90,7 @@ function ReturnForm() {
       );
 
       setSuccess("Form submitted successfully.");
+      alert("Form submitted successfully.");
     } catch (err) {
       console.error(err);
       setError("Failed to submit form.");
@@ -94,45 +109,9 @@ function ReturnForm() {
 
   return (
     <Layout>
-      <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
+      <div style={{ maxWidth: "700px", margin: "1.5rem auto" }}>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-            <label style={{ display: "block" }}>Household ID</label>
-            <input
-              type="text"
-              name="HouseholdId"
-              value={formData.HouseholdId}
-              onChange={handleChange}
-              className="form-control"
-              readOnly
-            />
-          </div>
-
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-            <label>Household Name</label>
-            <input
-              type="text"
-              name="HouseholdName"
-              value={formData.HouseholdName}
-              onChange={handleChange}
-              className="form-control"
-              readOnly
-            />
-          </div>
-
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-            <label>Person ID</label>
-            <input
-              type="text"
-              name="PersonId"
-              value={formData.PersonId}
-              onChange={handleChange}
-              className="form-control"
-              readOnly
-            />
-          </div>
-
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+          <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Parent 1 Name & Email</label>
             <input
               type="text"
@@ -144,19 +123,21 @@ function ReturnForm() {
             />
           </div>
 
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-            <label>Parent 2 Name & Email</label>
-            <input
-              type="text"
-              name="Parent_2_Name_and_Email"
-              value={formData.Parent_2_Name_and_Email}
-              onChange={handleChange}
-              className="form-control"
-              readOnly
-            />
-          </div>
+          {formData.Parent_2_Name_and_Email && (
+            <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
+              <label>Parent 2 Name & Email</label>
+              <input
+                type="text"
+                name="Parent_2_Name_and_Email"
+                value={formData.Parent_2_Name_and_Email}
+                onChange={handleChange}
+                className="form-control"
+                readOnly
+              />
+            </div>
+          )}
 
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+          <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Who is completing the form?</label>
             <input
               type="text"
@@ -167,19 +148,19 @@ function ReturnForm() {
             />
           </div>
 
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+          <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Child Details</label>
             <textarea
               name="ChildDetails"
               value={formData.ChildDetails}
               onChange={handleChange}
               className="form-control"
-              rows="6"
+              rows="5"
               readOnly
             />
           </div>
 
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+          <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Date students returned to UAE</label>
             <input
               type="date"
@@ -188,18 +169,18 @@ function ReturnForm() {
               onChange={handleChange}
               className="form-control"
               required
+              max={today}
             />
           </div>
 
-          <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+          <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Comments</label>
             <textarea
               name="comments"
               value={formData.comments}
               onChange={handleChange}
               className="form-control"
-              rows="4"
-              // required
+              rows="3"
             />
           </div>
 
@@ -221,212 +202,4 @@ function ReturnForm() {
 }
 
 export default ReturnForm;
-
-
-
-// import Layout from "../components/Layout";
-// import { useState } from "react";
-// import axios from "axios";
-
-// function ReturnForm() {
-//   const [formData, setFormData] = useState({
-//     HouseholdId: "",
-//     HouseholdName: "",
-//     PersonId: "",
-//     Parent_1_Name_and_Email: "",
-//     Parent_2_Name_and_Email: "",
-//     Who_is_completing_the_form: "",
-//     ChildDetails: "",
-//     DateOfReturn: "",
-//     comments: "",
-//   });
-
-//   const [loading, setLoading] = useState(false);
-//   const [success, setSuccess] = useState("");
-//   const [error, setError] = useState("");
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     setError("");
-//     setSuccess("");
-
-//     try {
-//       const idToken = localStorage.getItem("idToken");
-
-//       await axios.post(
-//         "http://localhost:5000/api/return-notice",
-//         formData,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${idToken}`,
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-
-//       setSuccess("Form submitted successfully.");
-//       setFormData({
-//         HouseholdId: "",
-//         HouseholdName: "",
-//         PersonId: "",
-//         Parent_1_Name_and_Email: "",
-//         Parent_2_Name_and_Email: "",
-//         Who_is_completing_the_form: "",
-//         ChildDetails: "",
-//         DateOfReturn: "",
-//         comments: "",
-//       });
-//     } catch (err) {
-//       console.error(err);
-//       setError("Failed to submit form.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <Layout>
-//       <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
-//         {/* <h3>Return Notice Form</h3> */}
-
-//         <form onSubmit={handleSubmit}>
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label style={{ display: "block", textAlign: "left" }}>Household ID</label>
-//             <input
-//               type="text"
-//               name="HouseholdId"
-//               value={formData.HouseholdId}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//               required
-//             />
-//           </div>
-
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Household Name</label>
-//             <input
-//               type="text"
-//               name="HouseholdName"
-//               value={formData.HouseholdName}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//               required
-//             />
-//           </div>
-
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Person ID</label>
-//             <input
-//               type="text"
-//               name="PersonId"
-//               value={formData.PersonId}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//               required
-//             />
-//           </div>
-
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Parent 1 Name & Email</label>
-//             <input
-//               type="text"
-//               name="Parent_1_Name_and_Email"
-//               value={formData.Parent_1_Name_and_Email}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//             />
-//           </div>
-          
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Parent 2 Name & Email</label>
-//             <input
-//               type="text"
-//               name="Parent_2_Name_and_Email"
-//               value={formData.Parent_2_Name_and_Email}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//             />
-//           </div>  
-
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Who is completing the form?</label>
-//             <input
-//               type="text"
-//               name="Who_is_completing_the_form"
-//               value={formData.Who_is_completing_the_form}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//             />
-//           </div>          
-          
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Child Details</label>
-//             <input
-//               type="text"
-//               name="ChildDetails"
-//               value={formData.ChildDetails}
-//               onChange={handleChange}
-//               className="form-control"
-//               placeholder=""
-//             />
-//           </div>          
-          
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Date students returned to UAE</label>
-//             <input
-//                 type="date"
-//                 name="DateOfReturn"
-//                 value={formData.DateOfReturn}
-//                 onChange={handleChange}
-//                 className="form-control"
-//                 required
-//             />
-//           </div>
-
-//           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
-//             <label>Comments</label>
-//             <textarea
-//               name="comments"
-//               value={formData.comments}
-//               onChange={handleChange}
-//               className="form-control"
-//               rows="4"
-//               placeholder="Enter your comments"
-//               required
-//             />
-//           </div>
-
-//           <div className="row my-3">
-//             <div className="col-md-12 d-flex justify-content-center">
-//               <button type="submit" className="btn btn-theme" disabled={loading}>
-//                 {loading ? "Submitting..." : "Submit"}{" "}
-//                 <i className="fa fa-arrow-right"></i>
-//               </button>
-//             </div>
-//           </div>
-//         </form>
-
-//         {success && <p style={{ color: "green" }}>{success}</p>}
-//         {error && <p style={{ color: "red" }}>{error}</p>}
-//       </div>
-//     </Layout>
-//   );
-// }
-
-// export default ReturnForm;
 
