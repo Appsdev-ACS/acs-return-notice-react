@@ -28,7 +28,7 @@ export default function Navbar() {
 
   const getTitle = () => {
     if (location.pathname === "/location-form") {
-      return "Remote Status Update Form";
+      return "Outside UAE Notice";
     }
     return "Return Notice Form";
   };
