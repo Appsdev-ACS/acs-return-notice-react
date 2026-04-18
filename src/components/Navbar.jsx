@@ -34,10 +34,11 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    axios
-      .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/me", {
-        withCredentials: true,
-      })
+    // axios
+    //   .get("https://acs-return-notice-1086168806252.europe-west1.run.app/api/me", {
+    //     withCredentials: true,
+    //   })
+    axios.get("/api/me", { withCredentials: true })
       .then((res) => {
         setUser(res.data.user);
       })
@@ -47,19 +48,19 @@ export default function Navbar() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
+    window.location.href = "/login";
   };
 
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://acs-return-notice-1086168806252.europe-west1.run.app/logout",
+        "/logout",
         {},
         { withCredentials: true }
       );
 
       setUser(null);
-      window.location.href = "https://acs-return-notice-1086168806252.europe-west1.run.app/login";
+      window.location.href = "/login";
     } catch (err) {
       console.error("Logout failed:", err);
     }
