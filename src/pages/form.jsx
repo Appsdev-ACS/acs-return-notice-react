@@ -133,6 +133,7 @@ function ReturnForm() {
     <Layout>
       <div style={{ maxWidth: "700px", margin: "1.5rem auto" }}>
         <form onSubmit={handleSubmit}>
+          <h4 style={{ color: "red" }}>Please only complete this form when you have already return to the UAE. This form does not accept dates in the future.</h4>
           <div style={{ marginBottom: "0.75rem", textAlign: "left" }}>
             <label>Parent 1 Name & Email</label>
             <input
